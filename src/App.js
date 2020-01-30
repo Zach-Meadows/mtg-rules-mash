@@ -31,9 +31,6 @@ class App extends Component {
               return res[cat][section]
             }
             return Object.keys(res[cat][section]).map(rule => {
-              if (rule === "title") {
-                return 
-              }
               return res[cat][section][rule]
             })
           })
@@ -54,14 +51,22 @@ class App extends Component {
           path="/"
           exact
           render={() =>
-            Object.keys(this.state.categories).map(key => {
+            Object.keys(this.state.categories).map((key, index) => {
               return (
                 <RuleDiv>
                   <p>
                     {key} {this.state.categories[key]["title"]}
                   </p>
-                  {}
                   
+                  {/* {this.state.rules[index].map((rule, i) => {
+                   return i === 0 ? (<p>{rule}</p>) : rule.map(rules => {
+                     return (
+                     <div>
+                       {rules}
+                     </div>
+                     )
+                   })
+                  })} */}
                 </RuleDiv>
               );
             })
