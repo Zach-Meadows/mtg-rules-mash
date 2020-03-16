@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const RuleDiv = styled.div``;
@@ -35,7 +35,6 @@ class App extends Component {
             })
           })
         })
-        let subrules
         this.setState({
           categories: categories,
           sections: sections,
@@ -51,12 +50,12 @@ class App extends Component {
           path="/"
           exact
           render={() =>
-            Object.keys(this.state.categories).map((key, index) => {
+            Object.keys(this.state.categories).map((key, i) => {
               return (
                 <RuleDiv>
-                  <p>
+                  <Link to={"/rules/" + i}>
                     {key} {this.state.categories[key]["title"]}
-                  </p>
+                  </Link>
                   
                   {/* {this.state.rules[index].map((rule, i) => {
                    return i === 0 ? (<p>{rule}</p>) : rule.map(rules => {
@@ -72,6 +71,17 @@ class App extends Component {
             })
           }
         />
+        {this.state.rules.map((ruleArray, i) => {
+          return <Route path={"/rules/" + i} key={i} render={() => {
+            return (<div>
+              {ruleArray.map((rule,i) => {
+                return <div>
+                  <p>{rule[0]}</p>
+                  </div>
+              })}
+            </div>)
+          }}/>
+        })}
       </div>
     );
   }
