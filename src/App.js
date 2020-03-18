@@ -75,6 +75,9 @@ class App extends Component {
           return <Route path={"/rules/" + i} key={i} render={() => {
             return (<div>
               {ruleArray.map((rule,i) => {
+                if (i === 0) {
+                  return
+                }
                 return <div>
                   <p>{rule[0]}</p>
                   </div>
