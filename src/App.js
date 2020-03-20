@@ -56,16 +56,6 @@ class App extends Component {
                   <Link to={"/rules/" + i}>
                     {key} {this.state.categories[key]["title"]}
                   </Link>
-                  
-                  {/* {this.state.rules[index].map((rule, i) => {
-                   return i === 0 ? (<p>{rule}</p>) : rule.map(rules => {
-                     return (
-                     <div>
-                       {rules}
-                     </div>
-                     )
-                   })
-                  })} */}
                 </RuleDiv>
               );
             })
@@ -79,7 +69,7 @@ class App extends Component {
                   return
                 }
                 return <div>
-                  <p>{rule[0]}</p>
+                  <Link to={"/rules/" + i}>{rule[0]}</Link>
                   </div>
               })}
             </div>)
