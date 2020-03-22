@@ -1,82 +1,70 @@
-import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Route, Link} from "react-router-dom";
 import styled from "styled-components";
+import Rule from "./Components/Rule";
 
 const RuleDiv = styled.div``;
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      categories: [],
-      sections: [],
-      rules: []
-    };
-  }
-  componentDidMount() {
+function App() {
+  const [categories, setCat] = useState(0);
+  const [sections, setSec] = useState(0);
+  const [rules, setRules] = useState(0);
+
+  useEffect(() => {
+    // fetchRules();
     fetch(
       "https://raw.githubusercontent.com/Zach-Meadows/MtgRulesPython/master/data.json"
     )
-      .then(res => res.json())
-      .then(res => {
-        let categories = res
-        let sections = Object.keys(res).map(cat => {
-         return Object.keys(res[cat]).map(section => {
-           return res[cat][section]
-         })
+    .then(res => res.json())
+    .then(res => {
+      setCat(res)
+      setSec(Object.keys(res).map(cat => {
+        return Object.keys(res[cat]).map(section => {
+          return res[cat][section]
         })
-        let rules = Object.keys(res).map(cat => {
-          return Object.keys(res[cat]).map(section => {
-            if (section === "title") {
-              return res[cat][section]
-            }
-            return Object.keys(res[cat][section]).map(rule => {
-              return res[cat][section][rule]
-            })
+       }))
+       setRules(Object.keys(res).map(cat => {
+        return Object.keys(res[cat]).map(section => {
+          if (section === "title") {
+            return res[cat][section]
+          }
+          return Object.keys(res[cat][section]).map(rule => {
+            return res[cat][section][rule]
           })
         })
-        this.setState({
-          categories: categories,
-          sections: sections,
-          rules: rules
-        });
-      });
-  }
-  
-  render() {
-    return (
-      <div>
+      }))
+})
+  }, [categories])
+  return (
+    <div>
         <Route
           path="/"
           exact
           render={() =>
-            Object.keys(this.state.categories).map((key, i) => {
+            Object.keys(categories).map((cat, i) => {
               return (
-                <RuleDiv>
-                  <Link to={"/rules/" + i}>
-                    {key} {this.state.categories[key]["title"]}
-                  </Link>
-                </RuleDiv>
+                <Rule key={i} i={i} categories={categories} sections={sections} rules={rules} cat={cat}/>
               );
             })
           }
         />
-        {this.state.rules.map((ruleArray, i) => {
-          return <Route path={"/rules/" + i} key={i} render={() => {
+        {rules.map((ruleArray, i) => {
+          return <Route path={"/rules/" + ruleArray} key={i} render={() => {
             return (<div>
-              {ruleArray.map((rule,i) => {
-                if (i === 0) {
+              {ruleArray.map((rule,subI) => {
+                if (subI === 0) {
                   return
                 }
                 return <div>
-                  <Link to={"/rules/" + i}>{rule[0]}</Link>
+                  <Link to={"/rules/" + i + "/" + subI}>{rule[0]}</Link>
+              <p></p>
                   </div>
               })}
             </div>)
           }}/>
         })}
       </div>
-    );
-  }
+  )
 }
+
 export default App;
