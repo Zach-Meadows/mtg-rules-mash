@@ -7,8 +7,8 @@ const RuleDiv = styled.div``;
 
 function App() {
   const [categories, setCat] = useState(0);
-  const [sections, setSec] = useState(0);
-  const [rules, setRules] = useState(0);
+  const [sections, setSec] = useState();
+  const [rules, setRules] = useState();
 
   useEffect(() => {
     // fetchRules();
@@ -40,15 +40,18 @@ function App() {
         <Route
           path="/"
           exact
-          render={() =>
-            Object.keys(categories).map((cat, i) => {
+          render={() => {
+            return Object.keys(categories).map((cat, i) => {
               return (
+                <div key={i}>
                 <Rule key={i} i={i} categories={categories} sections={sections} rules={rules} cat={cat}/>
+                </div>
               );
             })
-          }
+          }}
         />
-        {rules.map((ruleArray, i) => {
+      
+        {/* {rules.map((ruleArray, i) => {
           return <Route path={"/rules/" + ruleArray} key={i} render={() => {
             return (<div>
               {ruleArray.map((rule,subI) => {
@@ -62,7 +65,7 @@ function App() {
               })}
             </div>)
           }}/>
-        })}
+        })} */}
       </div>
   )
 }
