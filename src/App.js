@@ -50,7 +50,12 @@ function App() {
             })
           }}
         />
-      
+      <p>
+        {typeof rules}
+        {typeof sections}
+        {typeof categories}
+      </p>
+     
         {/* {rules.map((ruleArray, i) => {
           return <Route path={"/rules/" + ruleArray} key={i} render={() => {
             return (<div>
