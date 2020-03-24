@@ -7,8 +7,8 @@ const RuleDiv = styled.div``;
 
 function App() {
   const [categories, setCat] = useState(0);
-  const [sections, setSec] = useState();
-  const [rules, setRules] = useState();
+  const [sections, setSec] = useState({sections: []});
+  const [rules, setRules] = useState({rules: []});
 
   useEffect(() => {
     // fetchRules();
@@ -18,6 +18,8 @@ function App() {
     .then(res => res.json())
     .then(res => {
       setCat(res)
+      let fetchSec = Object.entries(res)
+      
       setSec(Object.keys(res).map(cat => {
         return Object.keys(res[cat]).map(section => {
           return res[cat][section]
@@ -50,14 +52,9 @@ function App() {
             })
           }}
         />
-      <p>
-        {typeof rules}
-        {typeof sections}
-        {typeof categories}
-      </p>
      
-        {/* {rules.map((ruleArray, i) => {
-          return <Route path={"/rules/" + ruleArray} key={i} render={() => {
+        {Array.isArray(rules) && rules.map((ruleArray, i) => {
+          return <Route path={"/rules/" + i} key={i} render={() => {
             return (<div>
               {ruleArray.map((rule,subI) => {
                 if (subI === 0) {
@@ -65,12 +62,12 @@ function App() {
                 }
                 return <div>
                   <Link to={"/rules/" + i + "/" + subI}>{rule[0]}</Link>
-              <p></p>
                   </div>
               })}
+              
             </div>)
           }}/>
-        })} */}
+        })}
       </div>
   )
 }
