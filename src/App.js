@@ -62,6 +62,26 @@ function App() {
                 }
                 return <div>
                   <Link to={"/rules/" + i + "/" + subI}>{rule[0]}</Link>
+                  <Route path={"/rules/" + i + "/" + subI} key={i} render={() => {
+                    return (
+                      <div>
+                        {rule.map((subrule, listI) => {
+                        
+                          if (listI === 0) {
+                            return
+                          }
+                          return (
+                          <div>{Object.entries(subrule).map((array, index) => {
+                            return (
+                            <p>{array[0]} {array[1]}</p> 
+                            )
+                          })}
+                          </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  }}/>
                   </div>
               })}
               
